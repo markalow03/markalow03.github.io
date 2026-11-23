@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ARG Project</title>
+<style>
+:root{--bg:#f5f6f8;--paper:#fff;--ink:#20242a;--muted:#68717d;--line:#dfe3e8;--accent:#2457c5;--good:#18794e;--bad:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:#fff;border-bottom:1px solid var(--line)}.bar{max-width:980px;margin:auto;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-weight:750;font-size:1.125rem;letter-spacing:.2px}.header-actions{display:flex;align-items:center;gap:14px}.font-controls{display:flex;align-items:center;gap:3px}.font-controls button{padding:5px 8px;background:transparent;color:var(--muted);border:1px solid var(--line);font-size:.8rem}.font-controls button:hover{background:#f1f3f6;filter:none}.bar a{color:var(--muted);font-size:.8125rem;text-decoration:none}
+main{max-width:820px;margin:42px auto;padding:0 20px}.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:26px;box-shadow:0 3px 14px #18223008}
+h1{font-size:1.5625rem;margin:0 0 6px}h2{font-size:1.1875rem;margin:0 0 14px}.muted{color:var(--muted)}.small{font-size:.8125rem}
+.progress{height:6px;background:#edf0f3;border-radius:10px;overflow:hidden;margin:18px 0 24px}.progress span{display:block;height:100%;background:var(--accent);transition:width .2s}
+.puzzle-image{display:block;width:100%;max-height:460px;object-fit:contain;background:#f1f2f4;border:1px solid var(--line);border-radius:10px;margin:20px auto 22px}
+.placeholder{height:250px;display:grid;place-items:center;color:#89919b;background:#f1f2f4;border:1px dashed #cbd1d8;border-radius:10px;margin:20px 0}
+input,textarea,button{font:inherit}input[type=text],input[type=password],input[type=url],textarea{width:100%;padding:12px 13px;border:1px solid #cbd1d8;border-radius:9px;background:#fff;color:var(--ink);outline:none}input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #2457c51a}
+button{border:0;border-radius:9px;padding:11px 17px;background:var(--accent);color:white;font-weight:650;cursor:pointer}button.secondary{background:#edf0f4;color:#303944}button.danger{background:#fff0ef;color:var(--bad)}button:disabled{opacity:.5;cursor:not-allowed}
+#submitAnswer{min-width:124px;transition:transform .14s ease,filter .14s ease,box-shadow .18s ease,background .18s ease}#submitAnswer:active,#submitAnswer.is-pressed{transform:scale(.95);filter:brightness(.84)}#submitAnswer.is-checking{background:#496fae;box-shadow:0 0 0 4px #2457c522}#submitAnswer.is-success{background:var(--good);box-shadow:0 0 0 4px #18794e24;animation:answer-confirm .42s ease-out}@keyframes answer-confirm{0%{transform:scale(.95);filter:brightness(.84)}55%{transform:scale(1.04)}100%{transform:scale(1)}}
+.answer-row{display:flex;gap:10px;margin-top:10px}.answer-row input{flex:1;min-width:0}.feedback{min-height:26px;margin-top:12px;font-size:.875rem}.feedback.good{color:var(--good)}.feedback.bad{color:var(--bad)}
+.ghost-panel{max-width:620px;margin:80px auto;text-align:center}.ghost-mark{font-size:13px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}.ghost-message{white-space:pre-wrap;margin:24px 0;color:var(--ink);line-height:1.75}
+footer{max-width:820px;margin:0 auto 35px;padding:0 20px;color:#87909a;text-align:center;font-size:12px}
+.hidden{display:none!important}.admin-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}.admin-grid{display:grid;grid-template-columns:240px 1fr;gap:18px}.page-list{max-height:600px;overflow:auto;border:1px solid var(--line);border-radius:10px;background:#fff;padding:8px}
+.page-item{display:flex;justify-content:space-between;gap:8px;padding:9px 10px;border-radius:7px;cursor:pointer;font-size:14px}.page-item.active{background:#edf3ff;color:#1746a6;font-weight:700}.field{margin:13px 0}.field label{display:block;font-weight:650;font-size:13px;margin-bottom:6px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.notice{background:#fff8e6;border:1px solid #f0d99b;color:#725313;border-radius:9px;padding:12px 14px;font-size:13px;margin-bottom:16px}
+.admin-preview{width:100%;max-height:220px;object-fit:contain;border:1px solid var(--line);border-radius:8px;background:#f1f2f4;margin-top:8px}\n#savePageStatus{align-self:center;min-height:22px}#savePageStatus.saved{color:var(--good);font-weight:700}#savePageStatus.error{color:var(--bad);font-weight:700}
+.theme-toggle{padding:7px 10px;background:transparent;color:var(--muted);border:1px solid var(--line);font-size:13px;font-weight:650}.theme-toggle:hover{filter:none;background:#f1f3f6}.theme-toggle:active{transform:scale(.96)}body.dark{color-scheme:dark;--bg:#12161c;--paper:#1d232c;--ink:#edf2f7;--muted:#aeb8c5;--line:#394453;--accent:#79a7ff;--good:#62d69b;--bad:#ff9b94}body.dark header,body.dark .page-list{background:#1a2028}body.dark input[type=text],body.dark input[type=password],body.dark input[type=url],body.dark textarea{background:#161b22;color:var(--ink);border-color:var(--line)}body.dark .placeholder,body.dark .admin-preview{background:#161b22;border-color:var(--line)}body.dark .progress{background:#303946}body.dark button.secondary{background:#303946;color:var(--ink)}body.dark button.danger{background:#3b2528;color:#ffb4ae}body.dark .theme-toggle:hover{background:#303946}
+@media(max-width:700px){main{margin:22px auto}.panel{padding:19px}.admin-grid{grid-template-columns:1fr}.page-list{max-height:190px}.answer-row{flex-direction:column}.answer-row button{width:100%}.bar{padding:13px 16px}}
+</style>
+</head>
+<body>
+<header><div class="bar"><div class="brand" id="siteBrand">ARG Project</div><div class="header-actions"><div class="font-controls" aria-label="ปรับขนาดตัวอักษร"><button id="fontDown" type="button" aria-label="ลดขนาดตัวอักษร">A−</button><button id="fontReset" type="button" aria-label="คืนขนาดตัวอักษรปกติ">A</button><button id="fontUp" type="button" aria-label="เพิ่มขนาดตัวอักษร">A+</button></div><button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">☾ โหมดมืด</button><a href="#admin" id="adminLink">ผู้ดูแลระบบ</a></div></div></header>
+<main>
+<section id="player">
+ <div class="panel">
+  <div class="small muted" id="pageCounter">หน้า 1 จาก 20</div>
+  <h1 id="pageTitle">ปริศนาที่ 1</h1>
+  <div class="progress"><span id="progressFill" style="width:5%"></span></div>
+  <div id="imageArea" class="placeholder">พื้นที่แสดงภาพปริศนา</div>
+  <p id="pagePrompt" class="muted">พิจารณาภาพ แล้วกรอกคำตอบด้านล่าง</p>
+  <form id="answerForm" novalidate>
+   <div class="answer-row"><input id="answerInput" type="text" autocomplete="off" placeholder="พิมพ์คำตอบได้ทุกภาษา"><button id="submitAnswer" type="submit">ส่งคำตอบ</button></div>
+  </form>
+  <div id="feedback" class="feedback" aria-live="polite"></div>
+ </div>
+</section>
+<section id="ghost" class="hidden">
+ <div class="panel ghost-panel">
+  <div class="ghost-mark">signal received</div>
+  <h1 id="ghostTitleView">คุณพบเส้นทางที่ซ่อนอยู่</h1>
+  <img id="ghostImageView" class="puzzle-image hidden" alt="ภาพของเส้นทางลับ">
+  <div id="ghostMessageView" class="ghost-message"></div>
+  <button class="secondary" id="leaveGhost" type="button">กลับสู่ปริศนา</button>
+ </div>
+</section>
+<section id="admin" class="hidden">
+ <div class="admin-top"><div><h1>Admin Panel</h1><div class="muted small">จัดการหน้า ภาพ คำตอบ และข้อความของ ARG</div></div><button class="secondary" id="backPlayer">กลับหน้าเล่น</button></div>
+ <div class="notice">ต้นแบบนี้บันทึกข้อมูลไว้ในเบราว์เซอร์เครื่องนี้เท่านั้น ยังไม่ใช่ระบบออนไลน์หลายผู้เล่น และไม่ควรใช้เก็บรหัสหรือข้อมูลสำคัญ</div>
+ <div class="panel">
+  <div class="admin-top"><h2>จัดการปริศนา</h2><div class="actions"><button id="addPage">+ เพิ่มหน้า</button><button class="secondary" id="exportData">ส่งออกข้อมูล</button><button class="secondary" id="importButton">นำเข้าข้อมูล</button><input id="importFile" type="file" accept="application/json" class="hidden"></div></div>
+  <div class="admin-grid">
+   <div><div class="small muted" style="margin:0 0 7px">รายการหน้า (เลือกเพื่อแก้ไข)</div><div class="page-list" id="pageList"></div></div>
+   <div>
+    <div class="field"><label for="editTitle">ชื่อหน้า</label><input id="editTitle" type="text"></div>
+    <div class="field"><label for="editPrompt">คำใบ้ / ข้อความประกอบภาพ</label><textarea id="editPrompt" rows="2"></textarea></div>
+    <div class="field"><label for="editImage">URL รูปภาพ (หรือเลือกไฟล์จากเครื่อง)</label><input id="editImage" type="url" placeholder="https://example.com/puzzle.jpg"><input id="uploadImage" type="file" accept="image/*" style="margin-top:8px"></div>
+    <img id="imagePreview" class="admin-preview hidden" alt="ตัวอย่างภาพ">
+    <div class="field"><label for="editAnswer">คำตอบที่ถูกต้อง (รองรับทุกภาษา)</label><input id="editAnswer" type="text" placeholder="เช่น เวลา หรือ time"><div class="small muted">ใส่คำตอบได้หลายแบบ โดยคั่นแต่ละคำตอบด้วย | หรือขึ้นบรรทัดใหม่ เช่น เวลา | time | 時間</div></div>
+    <div class="field"><label for="editSuccess">ข้อความเมื่อคำตอบถูก</label><textarea id="editSuccess" rows="2"></textarea></div>
+     <div class="field"><label for="editGhostAnswer">Ghost Answer ของข้อนี้</label><input id="editGhostAnswer" type="text" placeholder="เว้นว่างไว้หากข้อนี้ไม่มีเส้นทางลับ"><div class="small muted">ผู้เล่นตอบคำนี้ในหน้านี้แล้วจะไปยังหน้าความลับของข้อนี้ทันที</div></div>
+     <div class="field"><label for="editGhostTitle">ชื่อหน้าความลับ</label><input id="editGhostTitle" type="text" placeholder="เช่น สัญญาณจากอดีต"></div>
+     <div class="field"><label for="editGhostMessage">ข้อความในหน้าความลับ</label><textarea id="editGhostMessage" rows="4" placeholder="เขียนข้อความลับสำหรับคำตอบนี้"></textarea></div>
+     <div class="field"><label for="editGhostImage">URL รูปภาพในหน้าความลับ (ไม่บังคับ)</label><input id="editGhostImage" type="url" placeholder="https://example.com/secret.jpg"></div>
+     <div class="actions"><button id="savePage" type="button">บันทึกหน้านี้</button><button class="secondary" id="previewPage" type="button">ดูแบบผู้เล่น</button><span id="savePageStatus" class="small muted" role="status" aria-live="polite">ยังไม่มีการบันทึกในรอบนี้</span><button class="secondary" id="moveUp">เลื่อนขึ้น</button><button class="secondary" id="moveDown">เลื่อนลง</button><button class="danger" id="deletePage">ลบหน้านี้</button></div>
+   </div>
+  </div>
+ </div>
+ <div class="panel" style="margin-top:18px">
+  <h2>ตั้งค่าเว็บไซต์</h2>
+  <div class="field"><label for="siteName">ชื่อเว็บไซต์</label><input id="siteName" type="text"></div>
+  <div class="actions"><button id="saveSettings">บันทึกการตั้งค่า</button><button class="secondary" id="resetProgress">รีเซ็ตสถานะการเล่นในเครื่องนี้</button></div>
+ </div>
+</section>
+</main>
+<footer>ARG Project · เว็บไซต์ปริศนาต้นแบบ</footer>
+<script>
+const KEY='arg_project_data_v1', PROGRESS='arg_project_completed_v1', THEME='arg_project_theme_v1', FONT_SIZE='arg_project_font_size_v1';
+const params=new URLSearchParams(location.search), ADMIN_MODE=params.get('view')==='admin', PREVIEW_PAGE=Number(params.get('preview'));
+function applyTheme(theme){const dark=theme==='dark';document.body.classList.toggle('dark',dark);const button=document.getElementById('themeToggle');button.setAttribute('aria-pressed',String(dark));button.textContent=dark?'☀ โหมดสว่าง':'☾ โหมดมืด';}
+function loadTheme(){try{return localStorage.getItem(THEME)||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch(e){return 'light'}}
+function getFontSize(){try{return Math.max(14,Math.min(22,Number(localStorage.getItem(FONT_SIZE))||16))}catch(e){return 16}}
+function applyFontSize(size){const safe=Math.max(14,Math.min(22,size));document.documentElement.style.fontSize=`${safe}px`;try{localStorage.setItem(FONT_SIZE,safe)}catch(e){}}
+const defaultData=()=>({siteName:'ARG Project',pages:Array.from({length:20},(_,i)=>({title:`ปริศนาที่ ${i+1}`,prompt:'พิจารณาภาพ แล้วกรอกคำตอบด้านล่าง',image:'',answer:`ANSWER${i+1}`,success:'ถูกต้อง กำลังไปยังหน้าถัดไป...',ghostAnswer:'',ghostTitle:'',ghostMessage:'',ghostImage:''}))});
+let data=loadData(), selected=0, uploadedData='';
+function loadData(){try{let d=JSON.parse(localStorage.getItem(KEY));if(d&&Array.isArray(d.pages)&&d.pages.length)return d}catch(e){}return defaultData()}
+function saveData(){localStorage.setItem(KEY,JSON.stringify(data));}
+function norm(s){
+ return String(s??'').normalize('NFKC')
+  .replace(/[\u200B-\u200F\u202A-\u202E\u2060\uFEFF]/g,'')
+  .replace(/[\u00A0\u2000-\u200A\u202F\u205F\u3000]/g,' ')
+  .trim().replace(/\s+/g,' ').toLocaleLowerCase();
+}
+function acceptedAnswers(raw){
+ return String(raw??'').split(/[\n|]/).map(norm).filter(Boolean);
+}
+function completed(){return localStorage.getItem(PROGRESS)==='yes'}
+function setBrand(){document.title=data.siteName;document.getElementById('siteBrand').textContent=data.siteName}
+function showRoute(){const ghost=location.hash==='#ghost',admin=ADMIN_MODE&&!ghost;document.getElementById('player').classList.toggle('hidden',admin||ghost);document.getElementById('admin').classList.toggle('hidden',!admin);document.getElementById('ghost').classList.toggle('hidden',!ghost);if(admin)renderAdmin();else if(ghost)renderGhost();else renderPlayer()}
+window.addEventListener('hashchange',showRoute);
+window.addEventListener('storage',event=>{
+ if(event.key!==KEY||ADMIN_MODE||location.hash==='#ghost')return;
+ data=loadData();
+ currentPageIndex=Math.max(0,Math.min(currentPageIndex,data.pages.length-1));
+ renderPlayer();
+});
+let currentPageIndex=0;
+let isAnswerSubmitting=false;
+let activeGhost=null;
+let previewApplied=false;
+function renderPuzzle(){
+  const p=data.pages[currentPageIndex];
+  if(!p){
+   document.getElementById('feedback').className='feedback bad';
+   document.getElementById('feedback').textContent='ไม่พบข้อมูลปริศนา กรุณาตรวจสอบข้อมูลใน Admin Panel';
+   return;
+  }
+  document.getElementById('pageCounter').textContent=`หน้า ${currentPageIndex+1} จาก ${data.pages.length}`;
+  document.getElementById('pageTitle').textContent=p.title||`ปริศนาที่ ${currentPageIndex+1}`;
+  document.getElementById('pagePrompt').textContent=p.prompt||'';
+  document.getElementById('progressFill').style.width=((currentPageIndex+1)/data.pages.length*100)+'%';
+  let area=document.getElementById('imageArea');
+  if(p.image){
+   let im=document.createElement('img');im.id='imageArea';im.className='puzzle-image';im.src=p.image;im.alt='ภาพปริศนา';area.replaceWith(im);
+  }else if(area.tagName!=='DIV'){
+   let div=document.createElement('div');div.id='imageArea';div.className='placeholder';div.textContent='พื้นที่แสดงภาพปริศนา';area.replaceWith(div);
+  }else{
+   area.className='placeholder';area.textContent='พื้นที่แสดงภาพปริศนา';
+  }
+  document.getElementById('answerInput').value='';
+  document.getElementById('feedback').textContent='';
+  document.getElementById('feedback').className='feedback';
+  const submitButton=document.getElementById('submitAnswer');
+  submitButton.disabled=false;
+  submitButton.textContent='ส่งคำตอบ';
+  submitButton.className='';
+  isAnswerSubmitting=false;
+}
+function renderPlayer(){
+ setBrand();
+ if(!previewApplied&&Number.isInteger(PREVIEW_PAGE)&&PREVIEW_PAGE>=0&&PREVIEW_PAGE<data.pages.length){currentPageIndex=PREVIEW_PAGE;previewApplied=true;}
+ renderPuzzle();
+}
+function renderGhost(){
+ setBrand();
+ document.title=`เส้นทางลับ · ${data.siteName}`;
+ const ghost=activeGhost||{title:'คุณพบเส้นทางที่ซ่อนอยู่',message:'ไม่พบข้อมูลเส้นทางลับ',image:''};
+ document.getElementById('ghostTitleView').textContent=ghost.title||'คุณพบเส้นทางที่ซ่อนอยู่';
+ document.getElementById('ghostMessageView').textContent=ghost.message||'คุณพบข้อความที่ถูกซ่อนไว้แล้ว';
+ const image=document.getElementById('ghostImageView');
+ if(ghost.image){image.src=ghost.image;image.classList.remove('hidden')}else{image.removeAttribute('src');image.classList.add('hidden')}
+}
+
+// ผูก submit เพียงครั้งเดียว ไม่ผูกใหม่ทุกครั้งที่วาดหน้า
+document.getElementById('answerForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const input=document.getElementById('answerInput');
+ const fb=document.getElementById('feedback');
+ const submitButton=document.getElementById('submitAnswer');
+ if(isAnswerSubmitting)return;
+ submitButton.classList.add('is-pressed');
+ window.setTimeout(()=>submitButton.classList.remove('is-pressed'),150);
+ try{
+  const val=norm(input.value);
+  if(!val){fb.className='feedback bad';fb.textContent='กรุณาพิมพ์คำตอบก่อน';input.focus();return;}
+   const p=data.pages[currentPageIndex];
+   if(!p){fb.className='feedback bad';fb.textContent='ไม่พบข้อมูลปริศนาหน้านี้ กรุณารีเฟรชเว็บไซต์';return;}
+   const pageGhostMatch=acceptedAnswers(p.ghostAnswer).includes(val);
+   if(pageGhostMatch){
+    activeGhost={title:p.ghostTitle,message:p.ghostMessage,image:p.ghostImage};
+    isAnswerSubmitting=true;
+    submitButton.disabled=true;
+    submitButton.textContent='พบสัญญาณ ✓';
+    submitButton.classList.remove('is-pressed');
+    submitButton.classList.add('is-success');
+    fb.className='feedback good';fb.textContent='กำลังเปิดเส้นทางลับ...';
+    window.setTimeout(()=>location.hash='ghost',380);
+    return;
+   }
+  if(!acceptedAnswers(p.answer).includes(val)){
+   fb.className='feedback bad';fb.textContent='คำตอบไม่ถูกต้อง ลองอีกครั้ง';input.focus();input.select();return;
+  }
+  fb.className='feedback good';
+  if(currentPageIndex===data.pages.length-1){
+   localStorage.setItem(PROGRESS,'yes');
+   fb.textContent=(p.success||'ถูกต้อง')+' — คุณผ่านหน้าสุดท้ายแล้ว';
+    submitButton.textContent='ผ่านแล้ว ✓';
+    submitButton.classList.add('is-success');
+    submitButton.disabled=true;
+  }else{
+    isAnswerSubmitting=true;
+    submitButton.disabled=true;
+    submitButton.textContent='ถูกต้อง ✓';
+    submitButton.classList.remove('is-pressed');
+    submitButton.classList.add('is-success');
+    fb.textContent=(p.success||'ถูกต้อง')+' กำลังเปิดหน้าถัดไป...';
+    const nextPage=currentPageIndex+1;
+   window.setTimeout(()=>{
+     if(nextPage<data.pages.length){
+      currentPageIndex=nextPage;
+      renderPuzzle();
+    }
+   },450);
+  }
+ }catch(err){
+  fb.className='feedback bad';
+  fb.textContent='เกิดข้อผิดพลาดระหว่างตรวจคำตอบ กรุณารีเฟรชเว็บไซต์แล้วลองอีกครั้ง';
+  console.error('ARG answer submission error:',err);
+ }
+});
+function renderAdmin(){setBrand();renderList();if(!data.pages[selected])selected=0;loadEditor();document.getElementById('siteName').value=data.siteName}
+function renderList(){let list=document.getElementById('pageList');list.innerHTML='';data.pages.forEach((p,i)=>{let b=document.createElement('div');b.className='page-item'+(i===selected?' active':'');b.textContent=`${i+1}. ${p.title||'ไม่มีชื่อ'}`;b.onclick=()=>{selected=i;renderList();loadEditor()};list.appendChild(b)})}
+function loadEditor(){let p=data.pages[selected];if(!p)return;document.getElementById('editTitle').value=p.title||'';document.getElementById('editPrompt').value=p.prompt||'';document.getElementById('editImage').value=p.image?.startsWith('data:')?'':(p.image||'');document.getElementById('editAnswer').value=p.answer||'';document.getElementById('editSuccess').value=p.success||'';document.getElementById('editGhostAnswer').value=p.ghostAnswer||'';document.getElementById('editGhostTitle').value=p.ghostTitle||'';document.getElementById('editGhostMessage').value=p.ghostMessage||'';document.getElementById('editGhostImage').value=p.ghostImage||'';uploadedData='';let im=document.getElementById('imagePreview');if(p.image){im.src=p.image;im.classList.remove('hidden')}else im.classList.add('hidden')}
+const savePageButton=document.getElementById('savePage');
+const savePageStatus=document.getElementById('savePageStatus');
+let saveInProgress=false;
+function copyEditorToPage(p){p.title=document.getElementById('editTitle').value;p.prompt=document.getElementById('editPrompt').value;p.image=uploadedData||document.getElementById('editImage').value;p.answer=document.getElementById('editAnswer').value;p.success=document.getElementById('editSuccess').value;p.ghostAnswer=document.getElementById('editGhostAnswer').value;p.ghostTitle=document.getElementById('editGhostTitle').value;p.ghostMessage=document.getElementById('editGhostMessage').value;p.ghostImage=document.getElementById('editGhostImage').value;}
+function autoSaveCurrentPage(){if(saveInProgress)return;const p=data.pages[selected];if(!p)return;try{copyEditorToPage(p);saveData();renderList();savePageStatus.className='small saved';savePageStatus.textContent='✓ บันทึกอัตโนมัติแล้ว';savePageButton.textContent='บันทึกแล้ว ✓'}catch(e){savePageStatus.className='small error';savePageStatus.textContent='บันทึกอัตโนมัติไม่สำเร็จ';}}
+savePageButton.onclick=()=>{
+ if(saveInProgress)return;
+ const p=data.pages[selected];if(!p)return;
+ saveInProgress=true;savePageButton.disabled=true;savePageButton.textContent='กำลังบันทึก…';
+ savePageStatus.className='small muted';savePageStatus.textContent='กำลังบันทึกข้อมูล…';
+ try{
+  copyEditorToPage(p);
+  saveData();
+  renderList();
+  savePageStatus.className='small saved';
+  savePageStatus.textContent='✓ บันทึกสำเร็จแล้ว';
+  savePageButton.textContent='บันทึกแล้ว ✓';
+ }catch(e){
+  savePageStatus.className='small error';
+  savePageStatus.textContent='บันทึกไม่สำเร็จ: พื้นที่จัดเก็บอาจเต็ม ลองใช้ URL รูปภาพแทน';
+  savePageButton.textContent='ลองบันทึกอีกครั้ง';
+ }finally{
+  saveInProgress=false;
+  savePageButton.disabled=false;
+ }
+}; 
+['editTitle','editPrompt','editImage','editAnswer','editSuccess','editGhostAnswer','editGhostTitle','editGhostMessage','editGhostImage','uploadImage'].forEach(id=>{
+ const el=document.getElementById(id);
+  el.addEventListener('input',()=>{if(id==='editImage')uploadedData='';autoSaveCurrentPage()});
+  el.addEventListener('change',autoSaveCurrentPage);
+});
+document.getElementById('uploadImage').onchange=e=>{let f=e.target.files[0];if(!f)return;if(f.size>1200000){alert('ไฟล์ภาพใหญ่เกิน 1.2 MB สำหรับต้นแบบนี้ กรุณาย่อภาพหรือใช้ URL');e.target.value='';return}let r=new FileReader();r.onload=()=>{uploadedData=r.result;let im=document.getElementById('imagePreview');im.src=uploadedData;im.classList.remove('hidden');document.getElementById('editImage').value='';autoSaveCurrentPage()};r.readAsDataURL(f)};
+document.getElementById('addPage').onclick=()=>{data.pages.push({title:`ปริศนาที่ ${data.pages.length+1}`,prompt:'',image:'',answer:'',success:'ถูกต้อง',ghostAnswer:'',ghostTitle:'',ghostMessage:'',ghostImage:''});selected=data.pages.length-1;saveData();renderList();loadEditor()};
+document.getElementById('deletePage').onclick=()=>{if(data.pages.length<=1){alert('ต้องเหลืออย่างน้อย 1 หน้า');return}if(confirm('ต้องการลบหน้านี้หรือไม่?')){data.pages.splice(selected,1);selected=Math.max(0,selected-1);saveData();renderList();loadEditor()}};
+function move(delta){let n=selected+delta;if(n<0||n>=data.pages.length)return;[data.pages[selected],data.pages[n]]=[data.pages[n],data.pages[selected]];selected=n;saveData();renderList();loadEditor()}
+document.getElementById('moveUp').onclick=()=>move(-1);document.getElementById('moveDown').onclick=()=>move(1);
+document.getElementById('saveSettings').onclick=()=>{data.siteName=document.getElementById('siteName').value||'ARG Project';saveData();setBrand();alert('บันทึกการตั้งค่าแล้ว')};
+document.getElementById('resetProgress').onclick=()=>{if(confirm('รีเซ็ตสถานะว่าผ่านหน้าสุดท้ายแล้วในเบราว์เซอร์นี้?')){localStorage.removeItem(PROGRESS);alert('รีเซ็ตแล้ว')}};
+document.getElementById('backPlayer').onclick=()=>location.href='arg_project.html';
+document.getElementById('previewPage').onclick=()=>{autoSaveCurrentPage();location.href=`arg_project.html?preview=${selected}`};
+document.getElementById('leaveGhost').onclick=()=>{activeGhost=null;location.hash=''};
+document.getElementById('exportData').onclick=()=>{let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='arg-project-backup.json';a.click();URL.revokeObjectURL(a.href)};
+document.getElementById('importButton').onclick=()=>document.getElementById('importFile').click();
+document.getElementById('importFile').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!Array.isArray(d.pages)||!d.pages.length)throw Error();data=d;saveData();selected=0;renderAdmin();alert('นำเข้าข้อมูลสำเร็จ')}catch(err){alert('ไฟล์ไม่ถูกต้อง')}};r.readAsText(f)};
+function setupEntryMode(){const link=document.getElementById('adminLink');if(ADMIN_MODE){link.href='arg_project.html';link.textContent='หน้าเล่น'}else{link.classList.add('hidden')}}
+document.getElementById('themeToggle').onclick=()=>{const next=document.body.classList.contains('dark')?'light':'dark';try{localStorage.setItem(THEME,next)}catch(e){}applyTheme(next)};
+document.getElementById('fontDown').onclick=()=>applyFontSize(getFontSize()-1);
+document.getElementById('fontReset').onclick=()=>applyFontSize(16);
+document.getElementById('fontUp').onclick=()=>applyFontSize(getFontSize()+1);
+applyTheme(loadTheme());
+applyFontSize(getFontSize());
+setupEntryMode();
+showRoute();
+</script>
+</body></html>
